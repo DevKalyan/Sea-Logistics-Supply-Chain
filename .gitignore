@@ -1,0 +1,27 @@
+# Dependency directories
+node_modules/
+npm-debug.log
+
+.angular/cache/
+# Environment variables
+.env
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+
+# Logs and runtime data
+logs/
+*.log
+*.pid
+*.lock
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled output and build directories
+/build/
+/dist/
+/out/
