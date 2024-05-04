@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthloginModel } from 'src/app/core/models/auth.model';
+import { AuthloginViewModel } from 'src/app/core/ViewModels/auth.viewmodel';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 @Component({
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   
-   _loginDetails: AuthloginModel = {
+   _loginDetails: AuthloginViewModel = {
     UserName: '',
     PassWord: ''
 };
@@ -21,20 +21,14 @@ ngOnInit(): void {
   validateUserDetails() {
     this.authService.validateUserDetails(this._loginDetails.UserName, this._loginDetails.PassWord)
       .subscribe(
-        isAuthenticated => {
-          if (isAuthenticated) {
-            // Authentication successful, perform necessary actions (e.g., navigate to another page)
-            console.log('Authentication successful');
-            this.router.navigate(['/home']);
-          } else {
-            // Authentication failed, handle accordingly (e.g., display error message)
-            console.error('Authentication failed');
-            this.router.navigate(['/login']);
-          }
+        () => {
+          // Navigate to home page after successful login
+          this.router.navigate(['/home']);
         },
-        error => {
-          // Handle any errors that might occur during the authentication process
-          console.error('Error validating user details:', error);
+        (error) => {
+          // Handle login error
+          console.error('Login failed:', error);
+          // Optionally, show an error message to the user
         }
       );
   }

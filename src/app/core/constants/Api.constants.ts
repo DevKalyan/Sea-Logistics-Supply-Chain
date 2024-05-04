@@ -1,1 +1,1 @@
-export const API_URL :string = "http://localhost:8008/api/";
+export const API_URL :string = "https://localhost:7120/api/";

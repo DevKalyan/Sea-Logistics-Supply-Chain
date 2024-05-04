@@ -3,14 +3,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './modules/home/components/home/home.component';
 import { LoginComponent } from './modules/auth/components/login/login.component';
 import { AuthGuard } from './core/guards/auth/auth.guard';
+import { AppComponent } from './app.component';
 
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect root to home if authenticated
-  { path: '**', redirectTo: '/home' } // Redirect unmatched routes to home if authenticated
+  
+  { 
+    path: '', 
+    canActivate: [AuthGuard], // Protect the home page
+    children: [
+      { 
+        path: '', 
+        component: HomeComponent, 
+        pathMatch: 'full' 
+      }
+    ]
+  }
+  
 ];
 
 
