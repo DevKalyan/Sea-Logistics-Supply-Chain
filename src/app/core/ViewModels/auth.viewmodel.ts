@@ -1,4 +1,4 @@
-export interface AuthloginModel{
+export interface AuthloginViewModel{
     UserName : string,
     PassWord :string
 }

@@ -3,24 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MainHeaderComponent } from './shared/components/main-header/main-header.component';
-import { MainSidebarComponent } from './shared/components/main-sidebar/main-sidebar.component';
-import { ContentWrapperComponent } from './shared/components/content-wrapper/content-wrapper.component';
-import { ControlSidebarComponent } from './shared/components/control-sidebar/control-sidebar.component';
-import { MainFooterComponent } from './shared/components/main-footer/main-footer.component';
 import { LoginComponent } from './modules/auth/components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import  {FormsModule} from '@angular/forms'
-import { FormStyle } from '@angular/common';
+import { HomeComponent } from './modules/home/components/home/home.component';
+import { TopnavComponent } from './shared/components/mastertheme/topnav/topnav.component';
+import { AsidenavComponent } from './shared/components/mastertheme/asidenav/asidenav.component';
+import { FooterComponent } from './shared/components/mastertheme/footer/footer.component';
 @NgModule({
   declarations: [
-    AppComponent,
-    MainHeaderComponent,
-    MainSidebarComponent,
-    ContentWrapperComponent,
-    ControlSidebarComponent,
-    MainFooterComponent,    
-    LoginComponent
+    AppComponent,  
+    HomeComponent,
+    LoginComponent,TopnavComponent, AsidenavComponent, FooterComponent
   ],
   imports: [
     BrowserModule,
