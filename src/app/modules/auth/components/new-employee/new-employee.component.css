@@ -1,0 +1,10 @@
+.has-error {
+    color: #a94442;
+    border: 1px solid #a94442;
+}
+
+.help-block {
+    color: #a94442;
+    font-size: 12px;
+    margin-top: 5px;
+}

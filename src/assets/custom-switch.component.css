@@ -1,0 +1,67 @@
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 100px; /* Adjust width as needed */
+    height: 40px;    
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider - the moving part that you drag */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: -10px;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    left: 0; /* Adjusted value */
+    bottom: 0; /* Adjusted value */
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #13b33b;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #52a7ec;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(70px); /* Adjusted value */
+    -ms-transform: translateX(70px); /* Adjusted value */
+    transform: translateX(70px); /* Adjusted value */
+}
+
+.yes-no-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(255, 255, 255); /* Adjust color as needed */
+    z-index: 1;
+}
+.switch-container {
+    margin-left: 30px; /* Adjust margin as needed */
+}

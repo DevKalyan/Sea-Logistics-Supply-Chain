@@ -23,19 +23,23 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/fontawesome-free/css/all.min.css",
               "node_modules/icheck-bootstrap/icheck-bootstrap.min.css",
               "src/assets/adminLTE/dist/css/adminlte.min.css",
               "src/assets/login/css/util.css",
-              "src/assets/login/css/main.css"
+              "src/assets/login/css/main.css",
+              "src/assets/custom-switch.component.css",
+              "src/assets/adminLTE/plugins/select2/css/select2.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/jquery-ui/dist/jquery-ui.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",                    
-              "src/assets/adminLTE/dist/js/adminlte.js"       
+              "src/assets/adminLTE/dist/js/adminlte.js",
+              "src/assets/adminLTE/plugins/select2/js/select2.full.min.js"     
             ]
           },
           "configurations": {
@@ -101,6 +105,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []

@@ -43,7 +43,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li *ngFor="let detail of header.menuDetails" class="nav-item">
-                  <a [href]="detail.menuDetailsUrl" class="nav-link">
+                  <a [routerLink]="[detail.menuDetailsUrl]" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>{{ detail.menuDetailsName }}</p>
                   </a>
