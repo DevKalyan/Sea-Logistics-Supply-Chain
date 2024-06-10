@@ -32,7 +32,8 @@
               "src/assets/login/css/util.css",
               "src/assets/login/css/main.css",
               "src/assets/custom-switch.component.css",
-              "src/assets/adminLTE/plugins/select2/css/select2.min.css"
+              "src/assets/adminLTE/plugins/select2/css/select2.min.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

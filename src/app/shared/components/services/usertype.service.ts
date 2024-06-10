@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { API_URL } from 'src/app/core/constants/Api.constants';
 import { HttpClient } from '@angular/common/http';
-import { UserViewModel } from 'src/app/core/ViewModels/user.model';
+import { UserTypeViewModel } from 'src/app/core/ViewModels/usertype.viewmodel';
 import { catchError, map } from 'rxjs/operators';
 import { throwError,Observable  } from 'rxjs';
 @Injectable({
@@ -10,14 +10,14 @@ import { throwError,Observable  } from 'rxjs';
 export class UsertypeService {
   constructor(private httpClient : HttpClient) { }
 
-  userTypes : UserViewModel[]=[];
+  userTypes : UserTypeViewModel[]=[];
   
 
   GetAllUserTypes(){
-    return this.httpClient.get<UserViewModel>(`${API_URL}UserType/LoadAllUserTypes`).pipe(
-      map((data: UserViewModel) => {
+    return this.httpClient.get<UserTypeViewModel>(`${API_URL}v1/UserType/LoadAllUserTypes`).pipe(
+      map((data: UserTypeViewModel) => {
         // Handle successful response
-        //console.log('Data received:', data);
+        console.log('User Type Data received:', data);
         return data;
       }),
       catchError(error => {

@@ -1,6 +1,6 @@
 export interface UserTypeViewModel{
-    primaryId :string;
-    userTypeName: string;
+    PrimaryId :string;
+    UserTypeName: string;
     UserTypeDesription: string;
     CreatedAt :Date;
     CreatedBy : string;

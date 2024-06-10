@@ -13,11 +13,11 @@ export class DesignationService {
 
   _designtation : DesignationViewModel
 
-  getAllDesignationDetails(): Observable<DesignationViewModel> {
-    return this.httpClient.get<DesignationViewModel>(`${API_URL}Designation/LoadAllDesignations`).pipe(
+  getAllDesignationDetails() {
+    return this.httpClient.get<DesignationViewModel>(`${API_URL}v1/Designation/LoadAllDesignations`).pipe(
       map((data: DesignationViewModel) => {
         // Handle successful response
-        console.log('Data received:', data);
+        console.log('Designation Values received:', data);
         return data;
       }),
       catchError(error => {

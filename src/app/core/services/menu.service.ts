@@ -14,14 +14,15 @@ export class MenuService {
 
 
   getAllMenus(): Observable<MenuViewModel> {
-    console.log(API_URL + 'v1/Menu');
-    return this.http.get<MenuViewModel>(`${API_URL}v1/Menu`)
+    //console.log(API_URL + 'v1/Menu');
+    return this.http.get<MenuViewModel>(`${API_URL}v1/Menu/GetAllMenus`)
   }
 
-  InsertNewEmployeeDetails(employeeDetails: UserViewModel): Observable<UserViewModel> {
-    console.log("Employee Details submitted to API", employeeDetails);
-    return this.http.post<UserViewModel>(`${API_URL}v1/User`, employeeDetails)
+  getMenusForLoggedInUser(userid:string): Observable<MenuViewModel> {    
+    return this.http.get<MenuViewModel>(`${API_URL}v1/Menu/GetAllMenusforUser?userid=${userid}`);
   }
+  
+  
   // private handleError(error: HttpErrorResponse) {
   //   let errorMessage = 'An unknown error occurred';
   //   if (error.error instanceof ErrorEvent) {

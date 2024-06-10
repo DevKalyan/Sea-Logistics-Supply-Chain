@@ -1,15 +1,15 @@
 export interface MenuViewModel {
-    menuHeaderCode: string;
-    menuHeaderName: string;
-    menuHeaderOrder: number;
-    menuDetails: MenuDetail[];
+    MenuHeaderCode: string;
+    MenuHeaderName: string;
+    MenuHeaderOrder: number;
+    MenuDetails: MenuDetail[];
   }
 
   interface MenuDetail {
-    menuHeaderCode: string;
-    menuDetailsCode: string;
-    menuDetailsName: string;
-    menuDetailsDescription: string;
-    menuDetailsUrl: string;
-    menuDetailsOrder: number;
+    MenuHeaderCode: string;
+    MenuDetailsCode: string;
+    MenuDetailsName: string;
+    MenuDetailsDescription: string;
+    MenuDetailsUrl: string;
+    MenuDetailsOrder: number;
   }

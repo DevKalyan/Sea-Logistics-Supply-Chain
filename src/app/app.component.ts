@@ -8,11 +8,11 @@ import { AuthService } from './modules/auth/services/auth/auth.service';
 })
 export class AppComponent {
   title = 'SLM-User-Management';
-
+  _isLoggedin : boolean=false;
   constructor (private authService: AuthService){}
   
   isAuthenticated(): boolean {
-     return this.authService.getIsAuthenticated();
+    return this._isLoggedin = this.authService.getIsAuthenticated();
   }
 
 }

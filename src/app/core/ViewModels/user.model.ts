@@ -1,13 +1,13 @@
 
 export interface UserViewModel {
-    userId :string;
+    UserId :string;    
     UserBasicDetails : UserbasicDetails;
     UserCredentials :userCredentialDetails;
     UserMenuDetails : userMenuDetails;    
-    createdBy: string;
-    createdAt: Date;
-    modifiedBy: string;
-    modifiedAt: Date;
+    createdBy?: string;
+    createdAt?: Date;
+    modifiedBy?: string;
+    modifiedAt?: Date;
 }
 
 interface designationDetails{
@@ -26,7 +26,10 @@ interface UserbasicDetails {
     User_State :string;
     User_PostalCode: string;
     User_DateOfBirth : Date
-    User_Type :string
+    User_Type :string;
+    User_Active :string;
+    User_TimeZone:string;
+    User_DayLight :string
 }
 
 interface userCredentialDetails{

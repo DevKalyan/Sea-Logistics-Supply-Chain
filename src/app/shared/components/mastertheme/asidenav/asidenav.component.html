@@ -35,17 +35,17 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li *ngFor="let header of menuData" class="nav-item">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-{{ header.menuHeaderCode | lowercase }}"></i>
+                <i class="nav-icon fas fa-{{ header.MenuHeaderCode | lowercase }}"></i>
                 <p>
-                  {{ header.menuHeaderName }}
+                  {{ header.MenuHeaderName }}
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li *ngFor="let detail of header.menuDetails" class="nav-item">
-                  <a [routerLink]="[detail.menuDetailsUrl]" class="nav-link">
+                <li *ngFor="let detail of header.MenuDetails" class="nav-item">
+                  <a [routerLink]="[detail.MenuDetailsUrl]" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>{{ detail.menuDetailsName }}</p>
+                    <p>{{ detail.MenuDetailsName }}</p>
                   </a>
                 </li>
               </ul>

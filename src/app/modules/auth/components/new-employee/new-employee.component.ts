@@ -9,7 +9,10 @@ import { DesignationService } from 'src/app/shared/components/services/designati
 import { CommonService } from 'src/app/shared/components/services/common.service';
 import { UsertypeService } from 'src/app/shared/components/services/usertype.service';
 import { UserTypeViewModel } from 'src/app/core/ViewModels/usertype.viewmodel';
-import { MenuViewModel } from 'src/app/core/ViewModels/menu.viewmodel';
+import { ToastrService } from 'ngx-toastr';
+import { EmailViewModel } from 'src/app/shared/viewmodels/email.viewmodel';
+import { AuthService } from '../../services/auth/auth.service';
+import { SessionStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-new-employee',
@@ -25,15 +28,31 @@ export class NewEmployeeComponent implements OnInit {
   designationDetails: DesignationViewModel[] = [];
   usertypeDetails: UserTypeViewModel[] = [];
   countries: any = []
+  emailParameters: EmailViewModel = {
+    recieptentEmails: '',
+    senderEmail: '',
+    recieptentCCemails: '',
+    recieptentBCCemails: '',
+    emailSubject: '',
+    emailBody: '',
+    AttachmentList: []
+  }; // Initialize emailParameters with default values
+
+  selecteMenuString: string;
+
   constructor(private menuService: MenuService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     private designationService: DesignationService,
     private commonService: CommonService,
     private usertypeService: UsertypeService,
-    private http: HttpClient) {
+    private sessionService: SessionStorageService,
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {
     //First, you need to define a form control for your checkboxes in your component's TypeScript file.
     this.menusForm = this.formBuilder.group({
-      selectedMenus: this.formBuilder.array([])
+      selectedMenus: this.formBuilder.array([]) // Define selectedMenus as a FormArray
     });
   }
 
@@ -54,8 +73,18 @@ export class NewEmployeeComponent implements OnInit {
         username: ['', Validators.required],
         password: ['', Validators.required],
         passwordChanged: [''],
-        passwordChangeDate: ['']
-      })
+        passwordChangeDate: [''],
+        isActive: [''],
+        timeZone: [''],
+        dayLightSaving: []
+      }),
+      UserMenuDetails: {
+        AssingedMenuCodes: []
+      },
+      CreatedAt: new Date(), // Set to the current timestamp
+      CreatedBy: [],
+      ModifiedAt: new Date(), // Set to the current timestamp
+      ModifiedBy: []
     });
 
     //Loop through your menu items and create a FormControl for each
@@ -67,25 +96,25 @@ export class NewEmployeeComponent implements OnInit {
     this.LoadUserTypeDetails();
     this.LoadCountries();
     this.LoadMenus();
+    this.selecteMenuString='';
   }
   getSelectedMenus(e: any) {
     let menuArray = this.menusForm.get('selectedMenus') as FormArray;
+
     if (e.target.checked) {
       menuArray.push(new FormControl(e.target.value))
-    }
-    else {
+    } else {
       let i = 0;
-      menuArray.controls.forEach(
-        (menu: any) => {
-          if (menu == e.target.value) {
-            menuArray.removeAt(i);
-            return;
-          }
-          i++
+      menuArray.controls.forEach((menu: any) => {
+        if (menu.value == e.target.value) { // Compare the value of the FormControl
+          menuArray.removeAt(i);
+          return;
         }
-
-      )
+        i++;
+      });
     }
+    this.selecteMenuString = menuArray.value.join(',');
+    console.log("Selected Menus", this.selecteMenuString);
   }
   LoadCountries() {
     this.commonService.getAllCountries().subscribe({
@@ -145,11 +174,13 @@ export class NewEmployeeComponent implements OnInit {
       return;
     }
 
-
-    console.log(JSON.stringify(this.menusForm.value)); // This will log the selected checkboxes
+    const userDetailsString = this.sessionService.retrieve("_userDetails");
+    const userviewModel: UserViewModel = JSON.parse(userDetailsString);
+    const userid = userviewModel.UserId;
+    console.log("Selected Menus", JSON.stringify(this.menusForm.value)); // This will log the selected checkboxes
 
     let empDetails: UserViewModel = {
-      userId: '69902c53-9497-4b70-9603-6f7fb550f9bf',
+      UserId: '69902c53-9497-4b70-9603-6f7fb550f9bf',
       UserBasicDetails: {
         User_FirstName: this.employeeform.get('UserBasicDetails.firstName')?.value,
         User_MiddleName: this.employeeform.get('UserBasicDetails.middleName')?.value,
@@ -162,29 +193,71 @@ export class NewEmployeeComponent implements OnInit {
         User_PhoneNumber: this.employeeform.get('UserBasicDetails.phoneNo')?.value,
         User_DateOfBirth: new Date(this.employeeform.get('UserBasicDetails.dateOfBirth')?.value), // Assuming dateOfBirth is a Date object
         User_Type: this.employeeform.get('UserBasicDetails.userType')?.value,
+        User_Active: this.employeeform.get('UserBasicDetails.isActive')?.value == true ? "Active" : "In-Active",
+        User_DayLight: this.employeeform.get('UserBasicDetails.dayLightSaving')?.value == true ? "Yes" : "No",
+        User_TimeZone: this.employeeform.get('UserBasicDetails.timeZone')?.value
       },
       UserCredentials: {
         Username: this.employeeform.get('UserBasicDetails.username')?.value,
-        PasswordHash: this.employeeform.get('UserBasicDetails.password')?.value, 
-        PasswordChanged: this.employeeform.get('UserBasicDetails.passwordChanged')?.value=="YES"? 1 : 0, // Add appropriate default value        
+        PasswordHash: this.employeeform.get('UserBasicDetails.password')?.value,
+        PasswordChanged: this.employeeform.get('UserBasicDetails.passwordChanged')?.value == "YES" ? 1 : 0, // Add appropriate default value        
       },
       UserMenuDetails: {
-        AssingedMenuCodes: JSON.stringify(this.menusForm.value)
+        AssingedMenuCodes: this.selecteMenuString
       },
-      createdBy: "80a07b35-731b-47e9-b80a-efaf637f9a55", // Set to the current user's ID
+      createdBy: userid, // Set to the current user's ID
       createdAt: new Date(), // Set to the current timestamp
-      modifiedBy: "", // Initially empty
-      modifiedAt: new Date() // Initially set to the creation timestamp
+      modifiedBy: userid, // Initially empty
+      modifiedAt: new Date(), // Initially set to the creation timestamp      
     };
-
-    this.menuService.InsertNewEmployeeDetails(empDetails).subscribe({
+    console.log(this.employeeform.value);
+    this.authService.InsertNewEmployeeDetails(empDetails).subscribe({
       next: (response: any) => {
-        //console.log('Employee added successfully:', response);
+        console.log('Employee added successfully:', response);
+        this.toastr.success('Employee Details Added Successfully', 'Success');
+        this.resetForm();
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error adding employee:', error);
-        return []// Handle error here
+        this.toastr.error('There was an error Saving employee Details', 'Error');
+        // Handle specific errors or additional error handling here
+        // For example:
+        // if (error.status === 401) {
+        //    // Redirect to login page
+        // }
       }
     });
   }
-}
+  menuCheckboxState: boolean[] = [];
+  // Function to manually reset the form
+  resetForm() {
+    this.selecteMenuString='';
+    this.employeeform.reset(); // Reset the entire form
+
+  // Reset individual form controls and nested form groups
+  const userBasicDetails = this.employeeform.get('UserBasicDetails') as FormGroup;
+  userBasicDetails.reset();
+
+  // Reset dropdowns to default value (selectedIndex = 0)
+  userBasicDetails.get('country')?.setValue('');
+  userBasicDetails.get('designation')?.setValue('');
+  userBasicDetails.get('userType')?.setValue('');
+  userBasicDetails.get('state')?.setValue('');
+  userBasicDetails.get('timeZone')?.setValue('');
+
+  // Clear any validation errors
+  Object.keys(userBasicDetails.controls).forEach(key => {
+    userBasicDetails.controls[key].setErrors(null);
+  });
+    this.clearCheckboxes();   
+  }
+
+  clearCheckboxes() {
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+    checkboxes.forEach((checkbox: HTMLInputElement) => {
+      checkbox.checked = false;
+    });
+  }
+
+}  // function to get all Users;
+

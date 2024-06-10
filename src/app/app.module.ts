@@ -17,6 +17,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { ChangePasswordComponent } from './modules/auth/components/change-password/change-password.component';
 @NgModule({
   declarations: [
     AppComponent,  
@@ -25,7 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TopnavComponent, 
     AsidenavComponent, 
     FooterComponent, 
-    NewEmployeeComponent, ViewEmployeesComponent
+    NewEmployeeComponent, ViewEmployeesComponent, ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatInputModule,
-    BrowserAnimationsModule,MatNativeDateModule
+    BrowserAnimationsModule,MatNativeDateModule,
+    NgxPaginationModule,
+    ToastrModule.forRoot(),
+    NgxWebstorageModule.forRoot() 
   ],
   providers: [],
   bootstrap: [AppComponent]
